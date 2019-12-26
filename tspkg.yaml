@@ -8,7 +8,7 @@ build: |
 
   mkdir -p build
   pushd build
-    cmake -DCMAKE_INSTALL_PREFIX=$INSTALL_DIR -DCMAKE_BUILD_TYPE=$CMAKE_BUILD_TYPE -DUSE_DYNAMIC_LOGGING_LEVELS=ON -DG3_SHARED_LIB=$BUILD_SHARED ..
+    cmake -DCMAKE_INSTALL_PREFIX=$INSTALL_DIR -DCMAKE_BUILD_TYPE=$CMAKE_BUILD_TYPE -DG3_SHARED_LIB=$BUILD_SHARED ..
     cmake --build . --config $CMAKE_BUILD_TYPE
     cmake --build . --target install
   popd
