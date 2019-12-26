@@ -32,7 +32,7 @@ struct LogCapture {
 
    /**
     * @file, line, function are given in g3log.hpp from macros
-    * @level INFO/DEBUG/WARNING/FATAL
+    * @level DEBUG/INFO/WARNING/ERROR/FATAL
     * @expression for CHECK calls
     * @fatal_signal for failed CHECK:SIGABRT or fatal signal caught in the signal handler
     */
