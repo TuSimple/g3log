@@ -60,6 +60,7 @@ struct LogCapture {
 
    // Use "-Wall" to generate warnings in case of illegal printf format.
    //      Ref:  http://www.unixwiz.net/techtips/gnu-c-attributes.html
+   [[gnu::format(printf, 2, 0)]] void vcapturef(G3LOG_FORMAT_STRING const char *prinf_like_message, va_list arglist);
    [[gnu::format(printf, 2, 3)]] void capturef(G3LOG_FORMAT_STRING const char *printf_like_message, ...); // 2,3 ref:  http://www.codemaestro.com/reviews/18
 #endif
 

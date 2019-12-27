@@ -71,7 +71,7 @@ LogCapture::LogCapture(const char *file, const int line, const char *function, c
 * capturef, used for "printf" like API in CHECKF, LOGF, LOGF_IF
 * See also for the attribute formatting ref:  http://www.codemaestro.com/reviews/18
 */
-void LogCapture::capturef(const char *printf_like_message, ...) {
+void LogCapture::vcapturef(const char *printf_like_message, va_list arglist) {
    static const std::string kTruncatedWarningText = "[...truncated...]";
 #ifdef G3_DYNAMIC_MAX_MESSAGE_SIZE
    std::vector<char> finished_message_backing(MaxMessageSize);
@@ -87,15 +87,11 @@ void LogCapture::capturef(const char *printf_like_message, ...) {
 #endif
 #endif /* G3_DYNAMIC_MAX_MESSAGE_SIZE*/
 
-   va_list arglist;
-   va_start(arglist, printf_like_message);
-
 #if ((defined(WIN32) || defined(_WIN32) || defined(__WIN32__)) && !defined(__GNUC__))
    const int nbrcharacters = vsnprintf_s(finished_message, finished_message_len, _TRUNCATE, printf_like_message, arglist);
 #else
    const int nbrcharacters = vsnprintf(finished_message, finished_message_len, printf_like_message, arglist);
 #endif
-   va_end(arglist);
 
    if (nbrcharacters <= 0) {
       stream() << "\n\tERROR LOG MSG NOTIFICATION: Failure to successfully parse the message";
@@ -107,4 +103,9 @@ void LogCapture::capturef(const char *printf_like_message, ...) {
    }
 }
 
-
+void LogCapture::capturef(const char *printf_like_message, ...) {
+   va_list arglist;
+   va_start(arglist, printf_like_message);
+   vcapturef(printf_like_message, arglist);
+   va_end(arglist);
+}
