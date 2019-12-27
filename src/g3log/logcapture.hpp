@@ -32,7 +32,7 @@ struct LogCapture {
 
    /**
     * @file, line, function are given in g3log.hpp from macros
-    * @level INFO/DEBUG/WARNING/FATAL
+    * @level DEBUG/INFO/WARNING/ERROR/FATAL
     * @expression for CHECK calls
     * @fatal_signal for failed CHECK:SIGABRT or fatal signal caught in the signal handler
     */
@@ -60,6 +60,7 @@ struct LogCapture {
 
    // Use "-Wall" to generate warnings in case of illegal printf format.
    //      Ref:  http://www.unixwiz.net/techtips/gnu-c-attributes.html
+   [[gnu::format(printf, 2, 0)]] void vcapturef(G3LOG_FORMAT_STRING const char *prinf_like_message, va_list arglist);
    [[gnu::format(printf, 2, 3)]] void capturef(G3LOG_FORMAT_STRING const char *printf_like_message, ...); // 2,3 ref:  http://www.codemaestro.com/reviews/18
 #endif
 

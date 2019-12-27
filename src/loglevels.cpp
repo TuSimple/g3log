@@ -19,9 +19,10 @@ namespace g3 {
 
 #ifdef G3_DYNAMIC_LOGGING
       const std::map<int, LoggingLevel> g_log_level_defaults = {
-	     {G3LOG_DEBUG.value,{G3LOG_DEBUG}},
+         {G3LOG_DEBUG.value, {G3LOG_DEBUG}},
          {INFO.value, {INFO}},
          {WARNING.value, {WARNING}},
+         {ERROR.value, {ERROR}},
          {FATAL.value, {FATAL}}
       };
 
