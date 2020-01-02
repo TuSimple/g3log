@@ -64,12 +64,14 @@ namespace g3 {
       });
       std::lock_guard<std::mutex> lock(g_logging_init_mutex);
       if (internal::isLoggingInitialized() || nullptr == bgworker) {
+#ifndef G3_NO_STDERR_MESSAGE
          std::ostringstream exitMsg;
          exitMsg << __FILE__ "->" << __FUNCTION__ << ":" << __LINE__ << std::endl;
          exitMsg << "\tFatal exit due to illegal initialization of g3::LogWorker\n";
          exitMsg << "\t(due to multiple initializations? : " << std::boolalpha << internal::isLoggingInitialized();
          exitMsg << ", due to nullptr == bgworker? : " << std::boolalpha << (nullptr == bgworker) << ")";
          std::cerr << exitMsg.str() << std::endl;
+#endif
          std::exit(EXIT_FAILURE);
       }
 
@@ -226,7 +228,9 @@ namespace g3 {
                std::string& str = g_first_unintialized_msg->write();
                str.clear();
                str.append(err); // replace content
+#ifndef G3_NO_STDERR_MESSAGE
                std::cerr << str << std::endl;
+#endif
             });
             return;
          }
@@ -242,11 +246,13 @@ namespace g3 {
        */
       void pushFatalMessageToLogger(FatalMessagePtr message) {
          if (!isLoggingInitialized()) {
+#ifndef G3_NO_STDERR_MESSAGE
             std::ostringstream error;
             error << "FATAL CALL but logger is NOT initialized\n"
                   << "CAUSE: " << message.get()->reason()
                   << "\nMessage: \n" << message.get()->toString() << std::flush;
             std::cerr << error.str() << std::flush;
+#endif
             internal::exitWithDefaultSignalHandler(message.get()->_level, message.get()->_signal_id);
          }
          g_logger_instance->fatal(message);

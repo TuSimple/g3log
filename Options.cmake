@@ -113,6 +113,15 @@ ELSE()
    message( STATUS "-DG3_SHARED_RUNTIME=OFF\tBuild static runtime library")
 ENDIF()
 
+# Option for preventing g3log from writing messages to stderr
+option (G3_NO_STDERR_MESSAGE "Prevent g3log from printing error messages to terminal" OFF)
+IF(G3_NO_STDERR_MESSAGE)
+   LIST(APPEND G3_DEFINITIONS G3_NO_STDERR_MESSAGE)
+   message( STATUS "-DNO_STDERR_MESSAGE=ON\tG3log will never mess up stderr" )
+ELSE()
+   message( STATUS "-DNO_STDERR_MESSAGE=OFF\tG3log will print messages to stderr when in abnormal state" )
+ENDIF()
+
 # WINDOWS OPTIONS
 IF (MSVC OR MINGW) 
 # -DENABLE_VECTORED_EXCEPTIONHANDLING=ON   : defualt change the
