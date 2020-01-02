@@ -28,9 +28,11 @@ namespace g3 {
       }
 
       if (_sinks.empty()) {
+#ifndef G3_NO_STDERR_MESSAGE
          std::string err_msg {"g3logworker has no sinks. Message: ["};
          err_msg.append(uniqueMsg.get()->toString()).append("]\n");
          std::cerr << err_msg;
+#endif
       }
    }
 
@@ -54,7 +56,9 @@ namespace g3 {
       uniqueMsg->write().append("). ").append(exiting).append(" ").append(reason)
       .append("\nLog content flushed sucessfully to sink\n\n");
 
+#ifndef G3_NO_STDERR_MESSAGE
       std::cerr << uniqueMsg->toString() << std::flush;
+#endif
       for (auto& sink : _sinks) {
          LogMessage msg(*(uniqueMsg));
          sink->send(LogMessageMover(std::move(msg)));

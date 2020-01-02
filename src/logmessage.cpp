@@ -27,7 +27,7 @@ namespace g3 {
    std::string  LogMessage::fatalSignalToString(const LogMessage& msg) {
       std::string out; // clear any previous text and formatting
       out.append(msg.timestamp()
-                 + "\n\n***** FATAL SIGNAL RECEIVED ******* \n"
+                 + "\n\n******* FATAL SIGNAL RECEIVED ******* \n"
                  + msg.message() + '\n');
       return out;
    }
@@ -37,7 +37,7 @@ namespace g3 {
    std::string  LogMessage::fatalExceptionToString(const LogMessage& msg) {
       std::string out; // clear any previous text and formatting
       out.append(msg.timestamp()
-                 + "\n\n***** FATAL EXCEPTION RECEIVED ******* \n"
+                 + "\n\n******* FATAL EXCEPTION RECEIVED ******* \n"
                  + msg.message() + '\n');
       return out;
    }
@@ -47,7 +47,7 @@ namespace g3 {
    std::string LogMessage::fatalLogToString(const LogMessage& msg) {
       auto out = msg._logDetailsToStringFunc(msg);
       static const std::string fatalExitReason = {"EXIT trigger caused by LOG(FATAL) entry: "};
-      out.append("\n\t*******\t " + fatalExitReason + "\n\t" + '"' + msg.message() + '"');
+      out.append("\n******* " + fatalExitReason + '\n' + msg.message() + '\n');
       return out;
    }
 
@@ -55,21 +55,21 @@ namespace g3 {
    std::string LogMessage::fatalCheckToString(const LogMessage& msg) {
       auto out = msg._logDetailsToStringFunc(msg);
       static const std::string contractExitReason = {"EXIT trigger caused by broken Contract:"};
-      out.append("\n\t*******\t " + contractExitReason + " CHECK(" + msg.expression() + ")\n\t"
-                 + '"' + msg. message() + '"');
+      out.append("\n******* " + contractExitReason + " CHECK(" + msg.expression() + ")\n"
+                 + msg.message() + '\n');
       return out;
    }
 
    // helper for setting the normal log details in an entry
    std::string LogMessage::DefaultLogDetailsToString(const LogMessage& msg) {
       std::string out;
-      out.append(msg.timestamp() + "\t"
+      out.append(msg.timestamp() + "  "
                  + msg.level() 
                  + " [" 
                  + msg.file() 
                  + "->" 
                  + msg.function() 
-                 + ":" + msg.line() + "]\t");
+                 + ":" + msg.line() + "]  ");
       return out;
    }
 
