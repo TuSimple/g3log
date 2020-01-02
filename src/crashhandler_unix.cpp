@@ -177,17 +177,17 @@ namespace g3 {
                char* real_name = abi::__cxa_demangle(mangled_name, 0, 0, &status);
                // if demangling is successful, output the demangled function name
                if (status == 0) {
-                  oss << "\n\tstack dump [" << idx << "]  " << messages[idx] << " : " << real_name << "+";
-                  oss << offset_begin << offset_end << std::endl;
+                  oss << "\n    stack dump [" << idx << "]  " << messages[idx] << " : " << real_name << "+";
+                  oss << offset_begin << offset_end;
                }// otherwise, output the mangled function name
                else {
-                  oss << "\tstack dump [" << idx << "]  " << messages[idx] << mangled_name << "+";
-                  oss << offset_begin << offset_end << std::endl;
+                  oss << "\n    stack dump [" << idx << "]  " << messages[idx] << mangled_name << "+";
+                  oss << offset_begin << offset_end;
                }
                free(real_name); // mallocated by abi::__cxa_demangle(...)
             } else {
                // no demangling done -- just dump the whole line
-               oss << "\tstack dump [" << idx << "]  " << messages[idx] << std::endl;
+               oss << "\n    stack dump [" << idx << "]  " << messages[idx];
             }
          } // END: for(size_t idx = 1; idx < size && messages != nullptr; ++idx)
          free(messages);
@@ -226,8 +226,10 @@ namespace g3 {
       void exitWithDefaultSignalHandler(const LEVELS& level, g3::SignalType fatal_signal_id) {
          const int signal_number = static_cast<int>(fatal_signal_id);
          restoreSignalHandler(signal_number);
+      
+#ifndef G3_NO_STDERR_MESSAGE
          std::cerr << "\n\n" << __FUNCTION__ << ":" << __LINE__ << ". Exiting due to " << level.text << ", " << signal_number << "   \n\n" << std::flush;
-
+#endif
 
          kill(getpid(), signal_number);
          exit(signal_number);
