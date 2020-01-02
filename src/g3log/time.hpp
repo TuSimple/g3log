@@ -37,7 +37,7 @@ namespace g3 {
       // %f3: milliseconds, 3 digits: 001
       // %6: microseconds: 6 digits: 000001  --- default for the time_format
       // %f9, %f: nanoseconds, 9 digits: 000000001
-      static const std::string time_formatted = "%H:%M:%S %f6";
+      static const std::string time_formatted = "%H:%M:%S.%f6";
    } // internal
 
 
