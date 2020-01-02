@@ -104,7 +104,9 @@ namespace g3 {
       bool isLoggingInitialized();
 
       // Save the created LogMessage to any existing sinks
-      void saveMessage(const char *message, const char *file, int line, const char *function, const LEVELS &level,
+      void saveMessage(const char *entry, const char *file, int line, const char *function, const LEVELS &level,
+                       const char *boolean_expression, int fatal_signal, const char *stack_trace);
+      void saveMessage(std::string&& entry, const char *file, int line, const char *function, const LEVELS &level,
                        const char *boolean_expression, int fatal_signal, const char *stack_trace);
 
       // forwards the message to all sinks
